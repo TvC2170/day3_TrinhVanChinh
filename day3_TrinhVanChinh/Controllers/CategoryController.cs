@@ -68,37 +68,45 @@ namespace day3_TrinhVanChinh.Controllers
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Category category)
         {
-            try
+            var existingCategory = categories.FirstOrDefault(c => c.Id == category.Id);
+            if (existingCategory == null)
             {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                existingCategory.Name = category.Name;
                 return RedirectToAction(nameof(Index));
+
             }
-            catch
-            {
-                return View();
-            }
+            return View(category);
         }
 
         // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+           var category = categories.FirstOrDefault(c => c.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
         }
 
         // POST: CategoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
+            var category = categories.FirstOrDefault(c => c.Id == id);
+            if (category == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
-            {
-                return View();
-            }
+            categories.Remove(category);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

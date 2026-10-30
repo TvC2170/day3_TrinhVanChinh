@@ -10,5 +10,7 @@ namespace day3_TrinhVanChinh.Models
         [Required(ErrorMessage = "Name is required")]
         [StringLength(100, MinimumLength = 2 ,ErrorMessage = "Name cannot exceed 100 characters or lower than 2 characters")]
         public string? Name { get; set; } 
+
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }
